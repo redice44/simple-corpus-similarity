@@ -1,0 +1,28 @@
+{
+  "name": "@redice44/simple-corpus-similarity",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "nyc mocha \"test/**/*.spec.js\"",
+    "test:report": "nyc report",
+    "test:watch": "nodemon --exec nyc mocha \"test/**/*.spec.js\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/redice44/simple-corpus-similarity.git"
+  },
+  "keywords": [],
+  "author": "Matt Thomson<mthomson.lee@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/redice44/simple-corpus-similarity/issues"
+  },
+  "homepage": "https://github.com/redice44/simple-corpus-similarity#readme",
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^5.2.0",
+    "nodemon": "^1.18.9",
+    "nyc": "^13.1.0"
+  }
+}
