@@ -2,6 +2,7 @@ const expect = require('chai').expect;
 
 const {
   documentFrequency,
+  inverseDocumentFrequency,
   queryDocument
 } = require('../lib/documentFrequency');
 
@@ -25,6 +26,27 @@ describe('documentFrequency', () => {
       expect(documentFrequency(corpus, 'two')).to.equal(2);
       expect(documentFrequency(corpus, 'three')).to.equal(1);
       expect(documentFrequency(corpus, 'six')).to.equal(0);
+    });
+  });
+
+  describe('inverseDocumentFrequency', () => {
+    const corpus = [
+      { one: 1, two: 1 },
+      { two: 2, three: 3 },
+      { two: 2, three: 3 },
+      { two: 2, three: 3 },
+      { two: 2, three: 3 },
+      { two: 2, three: 3 },
+      { two: 2, three: 3 },
+      { two: 2, three: 3 },
+      { two: 2, three: 3 },
+      { four: 1, five: 1, two: 1 }
+    ];
+    it('should return the inverse document frequency', () => {
+      expect(inverseDocumentFrequency(corpus, 'one')).to.equal(1);
+      expect(inverseDocumentFrequency(corpus, 'two')).to.equal(0);
+      expect(inverseDocumentFrequency(corpus, 'five')).to.equal(1);
+      expect(inverseDocumentFrequency(corpus, 'six')).to.equal(0);
     });
   });
 });

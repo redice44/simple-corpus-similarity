@@ -6,7 +6,12 @@ export const inverseDocumentFrequency = (
   corpus: Array<DocumentTermFrequency>,
   term: string
 ) => {
-  const frequency = documentFrequency(corpus, term);
+  const docFrequency = documentFrequency(corpus, term);
+  if (docFrequency === 0) {
+    return 0;
+  }
+
+  return Math.log10(corpus.length / docFrequency);
 };
 
 export const documentFrequency = (
