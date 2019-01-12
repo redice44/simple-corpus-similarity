@@ -1,7 +1,18 @@
-const calculateTermFrequency = (
-  document,
-  { delim = ' ', caseSensitive = false } = {}
-) => {
+// @flow
+
+type TermOptions = {
+  delim: string,
+  caseSensitive: boolean
+};
+
+export type DocumentTermFrequency = {
+  [term: string]: number
+};
+
+export const calculateTermFrequency = (
+  document: string,
+  { delim = ' ', caseSensitive = false }: TermOptions = {}
+): DocumentTermFrequency => {
   const terms = {};
 
   document
@@ -14,5 +25,3 @@ const calculateTermFrequency = (
 
   return terms;
 };
-
-module.exports = calculateTermFrequency;

@@ -4,6 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "dev:watch": "babel -w src/ -d lib/",
+    "flow:watch": "nodemon --exec \"flow || exit 1\"",
+    "pretty": "prettier --write \"{src,test}/**/*.js\"",
     "test": "nyc mocha \"test/**/*.spec.js\"",
     "test:report": "nyc report",
     "test:watch": "nodemon --exec nyc mocha \"test/**/*.spec.js\""
@@ -20,9 +23,15 @@
   },
   "homepage": "https://github.com/redice44/simple-corpus-similarity#readme",
   "devDependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.2.2",
+    "@babel/preset-env": "^7.2.3",
+    "@babel/preset-flow": "^7.0.0",
     "chai": "^4.2.0",
+    "flow-bin": "^0.90.0",
     "mocha": "^5.2.0",
     "nodemon": "^1.18.9",
-    "nyc": "^13.1.0"
+    "nyc": "^13.1.0",
+    "prettier": "^1.15.3"
   }
 }

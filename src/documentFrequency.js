@@ -1,9 +1,21 @@
-const documentFrequency = (corpus, term) =>
+// @flow
+
+import type { DocumentTermFrequency } from './termFrequency';
+
+export const inverseDocumentFrequency = (
+  corpus: Array<DocumentTermFrequency>,
+  term: string
+) => {
+  const frequency = documentFrequency(corpus, term);
+};
+
+export const documentFrequency = (
+  corpus: Array<DocumentTermFrequency>,
+  term: string
+) =>
   corpus.reduce((acc, document) => {
     return acc + queryDocument(document, term);
   }, 0);
 
-const queryDocument = (document, term) => (document[term] ? 1 : 0);
-
-module.exports.documentFrequency = documentFrequency;
-module.exports.queryDocument = queryDocument;
+export const queryDocument = (document: DocumentTermFrequency, term: string) =>
+  document[term] ? 1 : 0;

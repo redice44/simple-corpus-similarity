@@ -1,6 +1,6 @@
 const expect = require('chai').expect;
 
-const calculateTermFrequency = require('../src/termFrequency');
+const { calculateTermFrequency } = require('../lib/termFrequency');
 
 describe('Term Frequency', () => {
   describe('calculateTermFrequency', () => {

@@ -3,7 +3,7 @@ const expect = require('chai').expect;
 const {
   documentFrequency,
   queryDocument
-} = require('../src/documentFrequency');
+} = require('../lib/documentFrequency');
 
 describe('documentFrequency', () => {
   describe('queryDocument', () => {
