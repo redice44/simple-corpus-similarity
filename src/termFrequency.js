@@ -5,23 +5,30 @@ type TermOptions = {
   caseSensitive: boolean
 };
 
-export type DocumentTermFrequency = {
-  [term: string]: number
-};
+export type DocumentTermFrequency = Map<string, number>;
 
 export const calculateTermFrequency = (
   document: string,
   { delim = ' ', caseSensitive = false }: TermOptions = {}
 ): DocumentTermFrequency => {
-  const terms = {};
+  const termsFrequency = new Map();
 
-  document
+  const terms = document
     .split(delim)
     .map(term => (caseSensitive ? term.trim() : term.toLowerCase().trim()))
-    .filter(term => term)
-    .forEach(term => {
-      terms[term] = terms[term] ? terms[term] + 1 : 1;
-    });
+    .filter(term => term);
 
-  return terms;
+  terms.forEach(term => {
+    if (termsFrequency.has(term)) {
+      termsFrequency.set(term, termsFrequency.get(term) + 1);
+    } else {
+      termsFrequency.set(term, 1);
+    }
+  });
+
+  termsFrequency.forEach((value, term) =>
+    termsFrequency.set(term, value / terms.length)
+  );
+
+  return termsFrequency;
 };

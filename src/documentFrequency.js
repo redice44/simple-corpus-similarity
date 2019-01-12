@@ -23,4 +23,4 @@ export const documentFrequency = (
   }, 0);
 
 export const queryDocument = (document: DocumentTermFrequency, term: string) =>
-  document[term] ? 1 : 0;
+  document.has(term) ? 1 : 0;
