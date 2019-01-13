@@ -5,7 +5,14 @@ import type { DocumentTermFrequency } from './tfidfVector';
 export const cosineSimilarity = (
   v1: DocumentTermFrequency,
   v2: DocumentTermFrequency
-): number => dotProduct(v1, v2) / (magnitude(v1) * magnitude(v2));
+): number => {
+  const m1 = magnitude(v1);
+  const m2 = magnitude(v2);
+  if (m1 === 0 || m2 === 0) {
+    return 0;
+  }
+  return dotProduct(v1, v2) / (m1 * m2);
+};
 
 export const dotProduct = (
   v1: DocumentTermFrequency,
@@ -15,18 +22,17 @@ export const dotProduct = (
     throw new Error('Vectors must be of the same length');
   }
 
-  const v1Values = v1.values();
-  const v2Values = v2.values();
-
-  let v1Current = v1Values.next();
-  let v2Current = v2Values.next();
   let total = 0;
 
-  while (!v1Current.done && !v2Current.done) {
-    total += v1Current.value * v2Current.value;
-    v1Current = v1Values.next();
-    v2Current = v2Values.next();
-  }
+  v1.forEach((v1Value, term) => {
+    const v2Value = v2.get(term);
+
+    if (v2Value === undefined) {
+      throw new Error('Vectors must be in the same vector space.');
+    }
+
+    total += v1Value * v2Value;
+  });
 
   return total;
 };

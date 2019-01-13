@@ -1,11 +1,48 @@
 // @flow
 
+import { cosineSimilarity } from './similarity';
+
 type TermOptions = {
   delim: string,
   caseSensitive: boolean
 };
 
-type DocumentTermFrequency = Map<string, number>;
+export type DocumentTermFrequency = Map<string, number>;
+
+export const similarityMatrix = (
+  corpus: Array<string>
+): Array<Array<number>> => {
+  const documentTermFrequencyVectors = corpus.map(document =>
+    termFrequencyVector(document)
+  );
+
+  const _tfidfVectors = tfidfVectors(documentTermFrequencyVectors);
+
+  return _tfidfVectors.map(v1 =>
+    _tfidfVectors.map(v2 => {
+      let coercedV1 = new Map();
+      let coercedV2 = new Map();
+
+      v1.forEach((value, term) => coercedV1.set(term, value));
+
+      v2.forEach((value, term) => {
+        coercedV2.set(term, value);
+
+        if (!coercedV1.has(term)) {
+          coercedV1.set(term, 0);
+        }
+      });
+
+      v1.forEach((value, term) => {
+        if (!coercedV2.has(term)) {
+          coercedV2.set(term, 0);
+        }
+      });
+
+      return cosineSimilarity(coercedV1, coercedV2);
+    })
+  );
+};
 
 export const tfidfVectors = (
   documentTermFrequencyVectors: Array<DocumentTermFrequency>

@@ -4,6 +4,7 @@ const {
   documentFrequency,
   inverseDocumentFrequency,
   queryDocument,
+  similarityMatrix,
   termFrequencyVector,
   tfidfVectors
 } = require('../lib/tfidfVector');
@@ -111,6 +112,18 @@ describe('Vector Builders', () => {
 
       expect(vectors[3].get('three')).to.equal(0.5 * Math.log10(4 / 3));
       expect(vectors[3].get('one')).to.equal(0.5 * Math.log10(2));
+    });
+  });
+
+  describe('similarityMatrix', () => {
+    it('should calculate the cosine similarity matrix', () => {
+      expect(
+        similarityMatrix(['one two', 'one one two two', 'three'])
+      ).to.deep.equal([[1, 1, 0], [1, 1, 0], [0, 0, 1]]);
+      expect(similarityMatrix(['three one', 'one one two two'])).to.deep.equal([
+        [1, 0],
+        [0, 1]
+      ]);
     });
   });
 });

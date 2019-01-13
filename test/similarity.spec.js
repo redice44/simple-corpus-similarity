@@ -14,7 +14,7 @@ describe('Cosine Similarity', () => {
   describe('Dot Product', () => {
     it('should calculate the dot product of two vectors', () => {
       const v1 = new Map([['two', 2], ['three', 3], ['four', 4]]);
-      const v2 = new Map([['four', 4], ['three', 3], ['two', 2]]);
+      const v2 = new Map([['two', 4], ['three', 3], ['four', 2]]);
 
       expect(dotProduct(v1, v2)).to.equal(25);
     });
@@ -46,15 +46,29 @@ describe('Cosine Similarity', () => {
   describe('Cosine Similarity', () => {
     it('should calculate the cosine similarity of two vectors', () => {
       const v1 = new Map([['two', 2], ['three', 3], ['four', 4]]);
-      const v2 = new Map([['four', 4], ['six', 6], ['eight', 8]]);
+      const v2 = new Map([['two', 4], ['three', 6], ['four', 8]]);
 
-      const v3 = new Map([['one', 1], ['zero', 0]]);
-      const v4 = new Map([['zero', 0], ['one', 1]]);
-      const v5 = new Map([['one', 1], ['_one', 1]]);
+      const v3 = new Map([['one', 1], ['two', 0]]);
+      const v4 = new Map([['one', 0], ['two', 1]]);
+      const v5 = new Map([['one', 1], ['two', 1]]);
 
       expect(cosineSimilarity(v1, v2)).to.almost.equal(1);
       expect(cosineSimilarity(v3, v4)).to.almost.equal(0);
       expect(cosineSimilarity(v3, v5)).to.almost.equal(Math.sqrt(2) / 2);
+    });
+
+    it('should error if the vectors are not in the same vector space', () => {
+      const v1 = new Map([['two', 2], ['three', 3], ['four', 4]]);
+      const v2 = new Map([['two', 4], ['three', 6], ['five', 8]]);
+
+      expect(() => cosineSimilarity(v1, v2)).to.throw();
+    });
+
+    it('should short circuit if magnitude is 0', () => {
+      const v1 = new Map([['two', 0], ['three', 0], ['four', 0]]);
+      const v2 = new Map([['two', 4], ['three', 6], ['four', 8]]);
+
+      expect(cosineSimilarity(v1, v2)).to.equal(0);
     });
   });
 });
