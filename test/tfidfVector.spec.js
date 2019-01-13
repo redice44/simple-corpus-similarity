@@ -4,10 +4,11 @@ const {
   documentFrequency,
   inverseDocumentFrequency,
   queryDocument,
+  termFrequencyVector,
   tfidfVectors
-} = require('../lib/documentFrequency');
+} = require('../lib/tfidfVector');
 
-describe('documentFrequency', () => {
+describe('Calculators', () => {
   describe('queryDocument', () => {
     it('should return the frequency of the term from the document', () => {
       expect(queryDocument(new Map([['one', 1], ['two', 1]]), 'one')).to.equal(
@@ -54,6 +55,38 @@ describe('documentFrequency', () => {
       expect(inverseDocumentFrequency(corpus, 'two')).to.equal(0);
       expect(inverseDocumentFrequency(corpus, 'five')).to.equal(1);
       expect(inverseDocumentFrequency(corpus, 'six')).to.equal(0);
+    });
+  });
+});
+
+describe('Vector Builders', () => {
+  describe('termFrequencyVector', () => {
+    it('should separate and calculate term frequency in a document', () => {
+      const termFrequency = termFrequencyVector(' one two three four four ');
+      expect(termFrequency).to.have.lengthOf(4);
+      expect(termFrequency).to.have.all.keys('one', 'two', 'three', 'four');
+      expect(termFrequency.get('one')).to.equal(0.2);
+      expect(termFrequency.get('two')).to.equal(0.2);
+      expect(termFrequency.get('three')).to.equal(0.2);
+      expect(termFrequency.get('four')).to.equal(0.4);
+    });
+    it('should handle case sensitive flag', () => {
+      const caseOn = termFrequencyVector('one One oNe', {
+        caseSensitive: true
+      });
+      const caseOff = termFrequencyVector('one One oNe');
+      expect(caseOn).to.have.lengthOf(3);
+      expect(caseOn).to.have.all.keys('one', 'One', 'oNe');
+      expect(caseOff).to.have.lengthOf(1);
+      expect(caseOff).to.have.all.keys('one');
+      expect(caseOff.get('one')).to.equal(1);
+    });
+    it('should handle different delimiter option', () => {
+      const termFrequency = termFrequencyVector('one,two,three', {
+        delim: ','
+      });
+      expect(termFrequency).to.have.lengthOf(3);
+      expect(termFrequency).to.have.all.keys('one', 'two', 'three');
     });
   });
 
