@@ -28,6 +28,7 @@
     "@babel/preset-env": "^7.2.3",
     "@babel/preset-flow": "^7.0.0",
     "chai": "^4.2.0",
+    "chai-almost": "^1.0.1",
     "flow-bin": "^0.90.0",
     "mocha": "^5.2.0",
     "nodemon": "^1.18.9",
