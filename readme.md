@@ -5,6 +5,17 @@ Simple implementation to detect document similarity in a corpus. Not intended fo
 > Note: Not optimized for speed nor space.
 > Note: JS precision loss is acceptable.
 
+## Usage
+
+```javascript
+const similarityMatrix = require('@redice44/simple-corpus-similarity');
+const corpus = [
+  'Here is some document',
+  'There is another'
+];
+const matrix = similarityMatrix(corpus);
+```
+
 ## Algorithm Details
 
 ### Document Vector
