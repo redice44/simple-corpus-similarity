@@ -2,6 +2,20 @@
 
 import type { DocumentTermFrequency } from './termFrequency';
 
+export const tfidfVectors = (
+  documentTermFrequencyVectors: Array<DocumentTermFrequency>
+): Array<DocumentTermFrequency> =>
+  documentTermFrequencyVectors.map(dtf => {
+    const vector: DocumentTermFrequency = new Map();
+    dtf.forEach((value, term) => {
+      vector.set(
+        term,
+        inverseDocumentFrequency(documentTermFrequencyVectors, term) * value
+      );
+    });
+    return vector;
+  });
+
 export const inverseDocumentFrequency = (
   corpus: Array<DocumentTermFrequency>,
   term: string
